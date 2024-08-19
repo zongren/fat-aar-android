@@ -1,4 +1,4 @@
-package com.kezong.fataar
+package com.yftech.tools.plugins.fataar
 
 import com.android.build.gradle.api.LibraryVariant
 import org.gradle.api.Plugin
@@ -71,7 +71,19 @@ class FatAarPlugin implements Plugin<Project> {
 
             if (!artifacts.isEmpty()) {
                 def processor = new VariantProcessor(project, variant)
-                processor.processVariant(artifacts, firstLevelDependencies, transform)
+//                FatUtils.logInfo("start processing variant "+variant.name)
+//                FatUtils.logInfo("artifacts are "+Arrays.toString(artifacts.toArray(new ResolvedArtifact[0])))
+                Collection<ResolvedArtifact> yftechArtifacts = new ArrayList<>()
+                for(ResolvedArtifact artifact:artifacts){
+//                    FatUtils.logInfo("artifact name:"+artifact.name+",type:"+artifact.type+",extension:"+artifact.extension+",classifier:"+artifact.classifier+",displayName:"+artifact.id.displayName)
+                    if(artifact.id.displayName.contains("com.yftech.")){
+                        yftechArtifacts.add(artifact)
+                    }
+                }
+                artifacts.clear()
+//                FatUtils.logInfo("yftech artifacts are "+Arrays.toString(yftechArtifacts.toArray(new ResolvedArtifact[0])))
+//                FatUtils.logInfo("firstLevelDependencies are "+Arrays.toString(firstLevelDependencies.toArray(new ResolvedDependency[0])))
+                processor.processVariant(yftechArtifacts, firstLevelDependencies, transform)
             }
         }
     }

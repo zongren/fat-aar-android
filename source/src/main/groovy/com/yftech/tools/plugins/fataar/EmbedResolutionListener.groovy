@@ -1,4 +1,4 @@
-package com.kezong.fataar
+package com.yftech.tools.plugins.fataar
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration

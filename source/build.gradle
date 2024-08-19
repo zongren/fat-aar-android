@@ -1,5 +1,4 @@
 apply plugin: 'groovy'
-apply from: "./upload.gradle"
 
 buildscript {
     repositories {
@@ -8,9 +7,9 @@ buildscript {
 }
 
 repositories {
-    mavenCentral()
-    google()
-    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url 'https://maven.aliyun.com/repository/central' }
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    maven { url 'https://maven.aliyun.com/repository/public' } // Warning: this repository is going to shut down soon
 }
 
 dependencies {
@@ -19,4 +18,31 @@ dependencies {
     implementation localGroovy()
     implementation "org.javassist:javassist:3.27.0-GA"
     implementation 'com.android.tools.build:gradle:4.2.0'
+}
+
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name 'Coding'
+                url 'http://192.168.1.5:8089/nexus/content/repositories/zqsy/'
+                allowInsecureProtocol true
+                credentials {
+                    username 'android'
+                    password 'android'
+                }
+            }
+        }
+        publications {
+            release(MavenPublication) {
+                from components.java
+
+                groupId = "${NEXUS_GROUP_ID}"
+                artifactId = "${NEXUS_ARTIFACT_ID}"
+                version = "${VERSION_NAME}"
+            }
+        }
+    }
 }

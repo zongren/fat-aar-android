@@ -1,4 +1,4 @@
-package com.kezong.fataar;
+package com.yftech.tools.plugins.fataar;
 
 import com.android.build.api.transform.DirectoryInput;
 import com.android.build.api.transform.Format;
